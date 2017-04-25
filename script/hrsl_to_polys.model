@@ -1,0 +1,325 @@
+{
+    "values": {
+        "inputs": {
+            "admin": {
+                "values": {
+                    "pos": {
+                        "values": {
+                            "y": 72.0, 
+                            "x": 131.0
+                        }, 
+                        "class": "point"
+                    }, 
+                    "param": {
+                        "values": {
+                            "isAdvanced": false, 
+                            "name": "admin", 
+                            "shapetype": [
+                                2
+                            ], 
+                            "default": null, 
+                            "value": null, 
+                            "exported": null, 
+                            "hidden": false, 
+                            "optional": false, 
+                            "description": "admin"
+                        }, 
+                        "class": "processing.core.parameters.ParameterVector"
+                    }
+                }, 
+                "class": "processing.modeler.ModelerAlgorithm.ModelerParameter"
+            }, 
+            "hrsl": {
+                "values": {
+                    "pos": {
+                        "values": {
+                            "y": 182.0, 
+                            "x": 122.0
+                        }, 
+                        "class": "point"
+                    }, 
+                    "param": {
+                        "values": {
+                            "isAdvanced": false, 
+                            "name": "hrsl", 
+                            "showSublayersDialog": true, 
+                            "default": null, 
+                            "value": null, 
+                            "exported": null, 
+                            "hidden": false, 
+                            "optional": false, 
+                            "description": "hrsl"
+                        }, 
+                        "class": "processing.core.parameters.ParameterRaster"
+                    }
+                }, 
+                "class": "processing.modeler.ModelerAlgorithm.ModelerParameter"
+            }
+        }, 
+        "helpContent": {
+            "ALG_DESC": "", 
+            "admin": "Areas to run the tool for. Typically these are regions like municipallities or provinces but any polygon layer in EPSG:4326 should work. \nSelect the polygons you want to run the algorithm on before you run the model.", 
+            "hrsl": "HRSL Facebook GeoTIFF", 
+            "ALG_CREATOR": "The Netherlands Red Cross / 510\nRaymond Nijssen", 
+            "ALG_VERSION": "0.1", 
+            "ALG_HELP_CREATOR": "Raymond", 
+            "OUTPUT_ALGQGISMULTIPARTTOSINGLEPARTS_1": "Vector layer containing dissolved buffers as single polygons, ready to create a hotosm.org task."
+        }, 
+        "group": "test", 
+        "name": "hrsl_buffer_distance", 
+        "algs": {
+            "GDALOGRPOLYGONIZE_1": {
+                "values": {
+                    "name": "GDALOGRPOLYGONIZE_1", 
+                    "paramsFolded": true, 
+                    "outputs": {}, 
+                    "outputsFolded": true, 
+                    "pos": {
+                        "values": {
+                            "y": 292.0, 
+                            "x": 342.0
+                        }, 
+                        "class": "point"
+                    }, 
+                    "dependencies": [], 
+                    "params": {
+                        "INPUT": {
+                            "values": {
+                                "alg": "GDALOGRCLIPRASTERBYMASKLAYER_1", 
+                                "output": "OUTPUT"
+                            }, 
+                            "class": "processing.modeler.ModelerAlgorithm.ValueFromOutput"
+                        }, 
+                        "FIELD": "DN"
+                    }, 
+                    "active": true, 
+                    "consoleName": "gdalogr:polygonize", 
+                    "description": "Polygonize (raster to vector)"
+                }, 
+                "class": "processing.modeler.ModelerAlgorithm.Algorithm"
+            }, 
+            "GDALOGRBUFFERVECTORS_1": {
+                "values": {
+                    "name": "GDALOGRBUFFERVECTORS_1", 
+                    "paramsFolded": true, 
+                    "outputs": {}, 
+                    "outputsFolded": true, 
+                    "pos": {
+                        "values": {
+                            "y": 502.0, 
+                            "x": 344.0
+                        }, 
+                        "class": "point"
+                    }, 
+                    "dependencies": [], 
+                    "params": {
+                        "DISTANCE": 40.0, 
+                        "MULTI": true, 
+                        "DISSOLVEALL": true, 
+                        "GEOMETRY": "geometry", 
+                        "FIELD": null, 
+                        "INPUT_LAYER": {
+                            "values": {
+                                "alg": "QGISREPROJECTLAYER_1", 
+                                "output": "OUTPUT"
+                            }, 
+                            "class": "processing.modeler.ModelerAlgorithm.ValueFromOutput"
+                        }, 
+                        "OPTIONS": null
+                    }, 
+                    "active": true, 
+                    "consoleName": "gdalogr:buffervectors", 
+                    "description": "Buffer vectors"
+                }, 
+                "class": "processing.modeler.ModelerAlgorithm.Algorithm"
+            }, 
+            "QGISREPROJECTLAYER_1": {
+                "values": {
+                    "name": "QGISREPROJECTLAYER_1", 
+                    "paramsFolded": true, 
+                    "outputs": {}, 
+                    "outputsFolded": true, 
+                    "pos": {
+                        "values": {
+                            "y": 393.0, 
+                            "x": 349.0
+                        }, 
+                        "class": "point"
+                    }, 
+                    "dependencies": [], 
+                    "params": {
+                        "INPUT": {
+                            "values": {
+                                "alg": "GDALOGRPOLYGONIZE_1", 
+                                "output": "OUTPUT"
+                            }, 
+                            "class": "processing.modeler.ModelerAlgorithm.ValueFromOutput"
+                        }, 
+                        "TARGET_CRS": "EPSG:32736"
+                    }, 
+                    "active": true, 
+                    "consoleName": "qgis:reprojectlayer", 
+                    "description": "Reproject layer"
+                }, 
+                "class": "processing.modeler.ModelerAlgorithm.Algorithm"
+            }, 
+            "QGISREPROJECTLAYER_2": {
+                "values": {
+                    "name": "QGISREPROJECTLAYER_2", 
+                    "paramsFolded": true, 
+                    "outputs": {}, 
+                    "outputsFolded": true, 
+                    "pos": {
+                        "values": {
+                            "y": 610.0, 
+                            "x": 346.0
+                        }, 
+                        "class": "point"
+                    }, 
+                    "dependencies": [], 
+                    "params": {
+                        "INPUT": {
+                            "values": {
+                                "alg": "GDALOGRBUFFERVECTORS_1", 
+                                "output": "OUTPUT_LAYER"
+                            }, 
+                            "class": "processing.modeler.ModelerAlgorithm.ValueFromOutput"
+                        }, 
+                        "TARGET_CRS": "EPSG:4326"
+                    }, 
+                    "active": true, 
+                    "consoleName": "qgis:reprojectlayer", 
+                    "description": "Reproject layer"
+                }, 
+                "class": "processing.modeler.ModelerAlgorithm.Algorithm"
+            }, 
+            "QGISMULTIPARTTOSINGLEPARTS_1": {
+                "values": {
+                    "name": "QGISMULTIPARTTOSINGLEPARTS_1", 
+                    "paramsFolded": true, 
+                    "outputs": {
+                        "OUTPUT": {
+                            "values": {
+                                "description": "hrsl_buffer", 
+                                "pos": {
+                                    "values": {
+                                        "y": 918.9566250000003, 
+                                        "x": 605.7748750000002
+                                    }, 
+                                    "class": "point"
+                                }
+                            }, 
+                            "class": "processing.modeler.ModelerAlgorithm.ModelerOutput"
+                        }
+                    }, 
+                    "outputsFolded": true, 
+                    "pos": {
+                        "values": {
+                            "y": 867.010875, 
+                            "x": 442.81887499999993
+                        }, 
+                        "class": "point"
+                    }, 
+                    "dependencies": [], 
+                    "params": {
+                        "INPUT": {
+                            "values": {
+                                "alg": "GDALOGRCLIPVECTORSBYPOLYGON_1", 
+                                "output": "OUTPUT_LAYER"
+                            }, 
+                            "class": "processing.modeler.ModelerAlgorithm.ValueFromOutput"
+                        }
+                    }, 
+                    "active": true, 
+                    "consoleName": "qgis:multiparttosingleparts", 
+                    "description": "Multipart to singleparts"
+                }, 
+                "class": "processing.modeler.ModelerAlgorithm.Algorithm"
+            }, 
+            "GDALOGRCLIPRASTERBYMASKLAYER_1": {
+                "values": {
+                    "name": "GDALOGRCLIPRASTERBYMASKLAYER_1", 
+                    "paramsFolded": true, 
+                    "outputs": {}, 
+                    "outputsFolded": true, 
+                    "pos": {
+                        "values": {
+                            "y": 177.0, 
+                            "x": 337.0
+                        }, 
+                        "class": "point"
+                    }, 
+                    "dependencies": [], 
+                    "params": {
+                        "ZLEVEL": 6.0, 
+                        "CROP_TO_CUTLINE": true, 
+                        "RTYPE": 5, 
+                        "BIGTIFF": 0, 
+                        "ALPHA_BAND": false, 
+                        "EXTRA": null, 
+                        "MASK": {
+                            "values": {
+                                "name": "admin"
+                            }, 
+                            "class": "processing.modeler.ModelerAlgorithm.ValueFromInput"
+                        }, 
+                        "COMPRESS": 4, 
+                        "KEEP_RESOLUTION": false, 
+                        "TILED": false, 
+                        "JPEGCOMPRESSION": 75.0, 
+                        "INPUT": {
+                            "values": {
+                                "name": "hrsl"
+                            }, 
+                            "class": "processing.modeler.ModelerAlgorithm.ValueFromInput"
+                        }, 
+                        "TFW": false, 
+                        "NO_DATA": null, 
+                        "PREDICTOR": 1.0
+                    }, 
+                    "active": true, 
+                    "consoleName": "gdalogr:cliprasterbymasklayer", 
+                    "description": "Clip raster by mask layer"
+                }, 
+                "class": "processing.modeler.ModelerAlgorithm.Algorithm"
+            }, 
+            "GDALOGRCLIPVECTORSBYPOLYGON_1": {
+                "values": {
+                    "name": "GDALOGRCLIPVECTORSBYPOLYGON_1", 
+                    "paramsFolded": true, 
+                    "outputs": {}, 
+                    "outputsFolded": true, 
+                    "pos": {
+                        "values": {
+                            "y": 735.755, 
+                            "x": 340.975
+                        }, 
+                        "class": "point"
+                    }, 
+                    "dependencies": [], 
+                    "params": {
+                        "INPUT_LAYER": {
+                            "values": {
+                                "alg": "QGISREPROJECTLAYER_2", 
+                                "output": "OUTPUT"
+                            }, 
+                            "class": "processing.modeler.ModelerAlgorithm.ValueFromOutput"
+                        }, 
+                        "CLIP_LAYER": {
+                            "values": {
+                                "name": "admin"
+                            }, 
+                            "class": "processing.modeler.ModelerAlgorithm.ValueFromInput"
+                        }, 
+                        "OPTIONS": null
+                    }, 
+                    "active": true, 
+                    "consoleName": "gdalogr:clipvectorsbypolygon", 
+                    "description": "Clip vectors by polygon"
+                }, 
+                "class": "processing.modeler.ModelerAlgorithm.Algorithm"
+            }
+        }
+    }, 
+    "class": "processing.modeler.ModelerAlgorithm.ModelerAlgorithm"
+}
