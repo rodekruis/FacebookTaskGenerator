@@ -16,13 +16,15 @@ programming language. So to run the entire conversion there are a few steps:
 * Download the hrsl geotiff and an admin shapefile
 * Clip hrsl raster into smaller rasters by admin areas
 * Polygonize smaller rasters into shapefiles
-* Load shapefiles into PostgreSQL database
+* Import shapefiles into PostgreSQL database
 * Buffer, union and intersect data
+
+![Process schema](process_schema.png "Process schema")
 
 The result is a PostgreSQL table containing 40m buffered polygons of the cells
 marked by HRSL as "containing buildings". The `pcode` field contains a unique
 value for the admin area the polygons belongs to. The `name` field contains the
-real name of the admin area.
+real name of the admin area. This table can be exported to a shapefile.
 
 ![HRSL data example](hrsl_polygons_mwi_20506.png "Resulting polgons")
 
