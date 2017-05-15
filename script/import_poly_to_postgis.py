@@ -5,7 +5,7 @@ database = 'facebook_mwi'
 usr = 'postgres'
 pw = ''
 
-table = 'hrsl_poly'
+table = 'hrsl_poly2'
 shp_path = '../hrsl_mwi/admin3/poly/'
 
 

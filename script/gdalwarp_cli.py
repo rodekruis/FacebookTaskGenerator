@@ -3,13 +3,13 @@ import time
 import os
 
 # data location (malawi)
-admin_areas_path = '/home/raymond/terglobo/projecten/rodekruis/facebook/hrsl_mwi/mwi_popa_adm3_tradauth_geonode_nso2008_ocha/'
+admin_areas_path = '../hrsl_mwi/mwi_popa_adm3_tradauth_geonode_nso2008_ocha/'
 admin_areas_basename = 'mwi_popa_adm3_tradauth_geonode_nso2008_ocha'
 field_name = 'P_CODE'
-hrsl_raster = '/home/raymond/terglobo/projecten/rodekruis/facebook/hrsl_mwi/hrsl_mwi.tif'
+hrsl_raster = '../hrsl_mwi/hrsl_mwi.tif'
 
 # working dirs
-hrsl_output_dir = '/home/raymond/terglobo/projecten/rodekruis/facebook/hrsl_mwi/admin3/'
+hrsl_output_dir = '../hrsl_mwi/admin3/'
 raster_dir = hrsl_output_dir + 'raster/'
 poly_dir = hrsl_output_dir + 'poly/'
 
